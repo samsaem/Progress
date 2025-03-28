@@ -1,7 +1,8 @@
 import { scale, verticalScale} from "@/utils/styling";
 
 export const colors = {
-    black: '#000000',
+    black: '#000',
+    neutral900: "#171717",
 };
 
 export const spacingX = {

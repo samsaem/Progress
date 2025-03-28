@@ -1,20 +1,18 @@
 import {StyleSheet, Text, View} from 'react-native'
 import React from 'react'
-import { Link } from 'expo-router';
 
-const Index = () => {
+const LogIn = () => {
     return (
         <View style={styles.container}>
-            <Text>Index - INSERT LOGO HERE</Text>
-            <Link href="(auth)/welcome">Go to Welcome</Link>
+            <Text>Login</Text>
         </View>
-    );
-};
-export default Index
+    )
+}
+export default LogIn
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
-});
+})
