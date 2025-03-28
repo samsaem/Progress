@@ -1,19 +1,23 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import React from 'react'
 import ScreenWrapper from "@/components/ScreenWrapper";
-import {Link} from "expo-router";
+import {useRouter} from "expo-router";
+import BackButton from "@/components/BackButton";
 
 const Welcome = () => {
+    const router = useRouter();
+
     return (
         <ScreenWrapper>
             <View style={styles.container}>
+                <BackButton/>
                 <Text>(auth)/welcome - WELCOME PAGE</Text>
-                <TouchableOpacity>
-                    <Link href="(auth)/login">Go to Login</Link>
+                <TouchableOpacity onPress={() => router.push('/(auth)/login')}>
+                    <Text>Go to Login</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity>
-                    <Link href="(auth)/signup">Go to Signup</Link>
+                <TouchableOpacity onPress={() => router.push('/(auth)/register')}>
+                    <Text>Go to Register</Text>
                 </TouchableOpacity>
             </View>
         </ScreenWrapper>
