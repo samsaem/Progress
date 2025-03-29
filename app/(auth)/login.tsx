@@ -1,24 +1,36 @@
-import {Alert, Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {ActivityIndicator, Alert, Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import React, {useRef, useState} from 'react'
-import {colors} from "@/constants/theme";
 import BackButton from "@/components/BackButton";
 import Input from "@/components/Input";
 import {router} from "expo-router";
+import register from "@/app/(auth)/register";
+import {useAuth} from "@/contexts/authContext";
 
 const LogIn = () => {
     const emailRef = useRef("");
     const passwordRef = useRef("");
+
+    const [loading, setLoading] = useState(false);
+    const {login} = useAuth();
 
     const handleSubmit = async () => {
         if (!emailRef.current || !passwordRef.current) {
             Alert.alert("Login", "Please fill all the fields!");
             return;
         }
-        console.log('email', emailRef.current);
-        console.log('password', passwordRef.current);
-        console.log('handleSubmit login works');
-    }
+        console.log('email', emailRef);
+        console.log('password', passwordRef);
 
+        setLoading(true);
+        const res = await login(emailRef.current, passwordRef.current);
+
+        setLoading(false);
+        console.log('login result: ', res);
+
+        if (!res.success) {
+            Alert.alert('Login', res.msg);
+        }
+    }
     return (
         <View style={styles.container}>
             <BackButton/>
@@ -35,12 +47,16 @@ const LogIn = () => {
                 onChangeText={(value) => passwordRef.current = value}
             />
 
-            <Button
-                title="Login"
+            <TouchableOpacity
                 onPress={handleSubmit}
+                disabled={loading}
+                style={{ padding: 12, backgroundColor: 'green', borderRadius: 8 }}
             >
-                console.log("login btn clicked")
-            </Button>
+                {loading
+                    ? <ActivityIndicator color="white" />
+                    : <Text style={{ color: 'white' }}>Login</Text>
+                }
+            </TouchableOpacity>
 
             <View>
                 <Text>No account?</Text>
@@ -58,6 +74,5 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.neutral,
     },
 })

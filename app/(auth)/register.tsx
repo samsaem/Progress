@@ -1,4 +1,4 @@
-import {Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native'
+import {ActivityIndicator, Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native'
 import React, {useRef, useState} from 'react'
 import {colors} from "@/constants/theme";
 import BackButton from "@/components/BackButton";
@@ -57,16 +57,15 @@ const Register = () => {
                     onChangeText={(value) => (passwordRef.current = value)}
                 />
 
-                <Button
-                    title="Sign up"
-                    onPress={handleSubmit}
-                />
-
                 <TouchableOpacity
                     onPress={handleSubmit}
                     disabled={loading}
+                    style={{ padding: 12, backgroundColor: 'green', borderRadius: 8 }}
                 >
-
+                    {loading
+                        ? <ActivityIndicator color="white" />
+                        : <Text style={{ color: 'white' }}>Register</Text>
+                    }
                 </TouchableOpacity>
 
                 <View>

@@ -9,19 +9,17 @@ const Input = (props: InputProps) => {
         <View
             style={[styles.container, props.containerStyle && props.containerStyle]}
         >
-
             <TextInput
                 style={[
                     styles.input,
-                    props.inputStyle
                 ]}
                 placeholderTextColor={colors.neutral900}
                 ref={props.inputRef && props.inputRef}
                 {...props}
             />
         </View>
-    )
-}
+    );
+};
 export default Input
 
 const styles = StyleSheet.create({
