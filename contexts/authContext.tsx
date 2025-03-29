@@ -22,12 +22,12 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
                 });
                 updateUserData(firebaseUser.uid);
                 router.replace("/(tabs)");
-                console.log('authenticated')
+                //console.log('authenticated')
             }
             // no access when no authenticate
             else {
                 setUser(null);
-                console.log('not authenticate');
+                //console.log('not authenticate');
                 router.replace("/(auth)/welcome");
             }
         });

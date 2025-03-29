@@ -3,20 +3,12 @@ import React, {useState} from 'react'
 import {router} from "expo-router";
 import {signOut} from "@firebase/auth";
 import {auth} from "@/config/firebase";
+import {useAuth} from "@/contexts/authContext";
 
 const Home = () => {
-    const handleLogout = async () => {
-        await signOut(auth);
-    }
-
     return (
         <View style={styles.container}>
-            <TouchableOpacity
-                onPress={handleLogout}
-                style={{ padding: 12, backgroundColor: 'green', borderRadius: 8 }}
-            >
-                <Text>Logout</Text>
-            </TouchableOpacity>
+            <Text>Home</Text>
         </View>
     )
 }
