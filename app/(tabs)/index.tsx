@@ -8,7 +8,7 @@ import {useAuth} from "@/contexts/authContext";
 const Home = () => {
     return (
         <View style={styles.container}>
-            <Text>Home</Text>
+            <Text>(1) HOME PAGE</Text>
         </View>
     )
 }

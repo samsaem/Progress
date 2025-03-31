@@ -3,6 +3,7 @@ import { scale, verticalScale} from "@/utils/styling";
 export const colors = {
     black: '#000',
     white: '#FFFFFF',
+    neutral300: "#d4d4d4",
     neutral800: "#262626",
     neutral900: "#171717",
 };

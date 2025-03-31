@@ -50,3 +50,22 @@ export type CategoryType = {
     uid?: string;
     created?: Date;
 };
+
+export type accountOptionType = {
+    title: string;
+    //icon: React.ReactNode;
+    //bgColor: string;
+    routeName?: any;
+};
+
+export type UserDataType = {
+    name: string;
+    image?: any;
+};
+
+export type ResponseType = {
+    success: boolean;
+    data?: any;
+    msg?: string;
+};
+
