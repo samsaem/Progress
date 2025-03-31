@@ -22,10 +22,8 @@ const Profile = () => {
                 <View style={styles.userInfo}>
                     {/* NAME */}
                     <Text>{user?.name}</Text>
-
                     {/* EMAIL */}
                     <Text>{user?.email}</Text>
-
                 </View>
 
                 {/* LOGOUT BTN */}

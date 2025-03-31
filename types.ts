@@ -36,3 +36,17 @@ export type AuthContextType = {
 
     updateUserData: (userId: string) => Promise<void>;
 };
+
+export type ModalWrapperProps = {
+    style?: ViewStyle;
+    children: React.ReactNode;
+    bg?: string;
+}
+
+// categoryModal
+export type CategoryType = {
+    id?: string;
+    name: string;
+    uid?: string;
+    created?: Date;
+};
