@@ -4,37 +4,44 @@ import ScreenWrapper from "@/components/ScreenWrapper";
     import {colors, radius, spacingX, spacingY} from "@/constants/theme";
 import {verticalScale} from "@/utils/styling";
 import {router} from "expo-router";
+import ModalWrapper from "@/components/ModalWrapper";
 
 const Summary = () => {
-    const getTotalDay = () => {
+    const getTotalCategory = () => {
         return 3;
     }
     return (
-        <ScreenWrapper>
+        <ModalWrapper>
             <View style={styles.container}>
                 <Text>(2) SUMMARY PAGE</Text>
 
                 {/* TOTAL CATEGORY: TOP */}
                 <View style={styles.totalCategory}>
-                    <Text>Workout {getTotalDay()}/365</Text>
-                    <Text>Total Category</Text>
-                    <Text>------------------</Text>
-
-                    {/* MY CATEGORY: MIDDLE PAGE */}
-                    <View style={styles.myCategory}>
-                        <Text>My Category</Text>
-                        <TouchableOpacity
-                            onPress={() => router.push("/(modals)/categoryModal")}
-                            style={{ padding: 12, backgroundColor: 'green', borderRadius: 8 }}
-                        >
-                            <Text>Add Category Btn</Text>
-                        </TouchableOpacity>
-                        <Text>------------------</Text>
-                    </View>
+                    <Text>Total Category: {getTotalCategory()}</Text>
                 </View>
             </View>
 
-        </ScreenWrapper>
+            {/* MY CATEGORY: MIDDLE */}
+            <View style={styles.category}>
+                <View style={styles.flexRow}>
+                    <Text>My Category</Text>
+
+                    <TouchableOpacity
+                        onPress={() => router.push("/(modals)/categoryModal")}
+                        style={{ padding: 12, backgroundColor: 'green', borderRadius: 8 }}
+                    >
+                        <Text>Add Category</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {/* CATEGORY LIST */}
+                <View>
+
+                </View>
+
+            </View>
+
+        </ModalWrapper>
     )
 }
 export default Summary
@@ -46,10 +53,16 @@ const styles = StyleSheet.create({
     },
     totalCategory: {
         gap: verticalScale(4),
-        alignItems: "center",
+        //alignItems: "center",
     },
-    myCategory: {
+    category: {
         gap: verticalScale(4),
+        //alignItems: "center",
+    },
+    flexRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
         alignItems: "center",
-    }
+        marginBottom: spacingY._10,
+    },
 })

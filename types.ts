@@ -49,6 +49,8 @@ export type CategoryType = {
     name: string;
     uid?: string;
     created?: Date;
+    amount?: number;
+    totalCategory?: number;
 };
 
 export type accountOptionType = {
@@ -68,4 +70,3 @@ export type ResponseType = {
     data?: any;
     msg?: string;
 };
-
