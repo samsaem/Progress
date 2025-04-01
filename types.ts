@@ -7,6 +7,7 @@ export type ScreenWrapperProps = {
 }
 
 export interface InputProps extends TextInputProps {
+    icon?: React.ReactNode;
     containerStyle?: ViewStyle;
     inputStyle?: ViewStyle;
     inputRef?: React.RefObject<TextInput>;

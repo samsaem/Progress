@@ -10,8 +10,7 @@ const Welcome = () => {
     return (
         <ScreenWrapper>
             <View style={styles.container}>
-                <BackButton/>
-                <Text>(auth)/welcome - WELCOME PAGE</Text>
+                <Text>Welcome to Progression</Text>
                 <TouchableOpacity onPress={() => router.push('/(auth)/login')}>
                     <Text>Go to Login</Text>
                 </TouchableOpacity>

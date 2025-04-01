@@ -9,6 +9,7 @@ const Input = (props: InputProps) => {
         <View
             style={[styles.container, props.containerStyle && props.containerStyle]}
         >
+            {props.icon && props.icon}
             <TextInput
                 style={[
                     styles.input,
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
         gap: spacingX._10,
     },
     input: {
-        flex: 1,
+        flex: 10,
         fontSize: verticalScale(14),
     },
 });

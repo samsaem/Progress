@@ -6,7 +6,7 @@ import {signOut} from "@firebase/auth";
 import {auth} from "@/config/firebase";
 import {verticalScale} from "@/utils/styling";
 import { Image } from 'expo-image';
-import {colors, spacingY} from "@/constants/theme";
+import {colors, spacingX, spacingY} from "@/constants/theme";
 import {getProfileImage} from "@/services/imageService";
 import {accountOptionType} from "@/types";
 import {router} from "expo-router";
@@ -55,7 +55,7 @@ const Profile = () => {
     return (
         <ScreenWrapper>
             <View style={styles.container}>
-                <Text>(3) PROFILE PAGE</Text>
+                <Text style={styles.headerText}>PROFILE</Text>
 
                 {/* USER'S INFO */}
                 <View style={styles.userInfo}>
@@ -67,14 +67,17 @@ const Profile = () => {
                             contentFit="cover"
                             transition={100}
                             />
-
                     </View>
 
                     {/* NAME */}
-                    <Text>{user?.name}</Text>
+                    <Text style={styles.nameText}>
+                        {user?.name}
+                    </Text>
 
                     {/* EMAIL */}
-                    <Text>{user?.email}</Text>
+                    <Text style={styles.emailText}>
+                        {user?.email}
+                    </Text>
 
                 </View>
 
@@ -86,12 +89,12 @@ const Profile = () => {
                     accountOptions.map((item, index) => {
                         return (
                             <View
-                                style={styles.listItem}
+                                //style={styles.listItem}
                                 key={index.toString()}
                             >
                                 <TouchableOpacity
                                     onPress={() => handlePress(item)}
-                                    style={{ padding: 12, backgroundColor: 'green', borderRadius: 8 }}
+                                    style={{ padding: 10, backgroundColor: 'grey', borderRadius: 8 }}
                                 >
                                     <Text>{item.title}</Text>
                                 </TouchableOpacity>
@@ -107,12 +110,15 @@ export default Profile
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        paddingHorizontal: spacingX._20,
+        alignItems: "center",
+        gap: 30,
     },
     userInfo: {
         gap: verticalScale(4),
         alignItems: "center",
+        justifyContent: "space-evenly",
+        gap: 15,
     },
     avatar: {
         alignSelf: "center",
@@ -120,13 +126,16 @@ const styles = StyleSheet.create({
         height: verticalScale(135),
         width: verticalScale(135),
         borderRadius: 200,
-        // overflow: "hidden",
-        // position: "relative",
     },
-    accountOptions: {
-        marginTop: spacingY._35,
+    headerText: {
+        fontSize: 15,
+        fontWeight: 'bold',
     },
-    listItem: {
-        marginBottom: verticalScale(17),
+    nameText: {
+        fontSize: 25,
     },
+    emailText: {
+        fontSize: 15,
+    },
+
 })

@@ -1,13 +1,21 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import React from 'react'
 import {useRouter} from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const BackButton = () => {
     const router = useRouter();
 
     return (
-        <TouchableOpacity onPress={() => router.back()}>
-            <Text>BackButton</Text>
+
+        <TouchableOpacity
+            onPress={() => router.back()}
+        >
+            <Ionicons
+                name="chevron-back-circle-outline"
+                size={26}
+                color="black"
+            />
         </TouchableOpacity>
     )
 }

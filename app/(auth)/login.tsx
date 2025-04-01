@@ -1,10 +1,12 @@
-import {ActivityIndicator, Alert, Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {ActivityIndicator, Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native'
 import React, {useRef, useState} from 'react'
 import BackButton from "@/components/BackButton";
 import Input from "@/components/Input";
 import {router} from "expo-router";
-import register from "@/app/(auth)/register";
 import {useAuth} from "@/contexts/authContext";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import {spacingX, spacingY} from "@/constants/theme";
+import ScreenWrapper from "@/components/ScreenWrapper";
 
 const LogIn = () => {
     const emailRef = useRef("");
@@ -32,47 +34,89 @@ const LogIn = () => {
         }
     }
     return (
-        <View style={styles.container}>
-            <BackButton/>
-            <Text>LOGIN PAGE</Text>
+        <ScreenWrapper>
+            <View style={styles.container}>
+                <BackButton
 
-            <Input
-                placeholder="Enter your email"
-                onChangeText={(value) => emailRef.current = value}
-            />
+                />
 
-            <Input
-                secureTextEntry={true}
-                placeholder="Enter your password"
-                onChangeText={(value) => passwordRef.current = value}
-            />
+                {/* INSERT LOGO HERE */}
+                <View style={styles.topLogo}>
+                    <Text>LOGIN PAGE - PROGRESSION LOGO</Text>
+                </View>
 
-            <TouchableOpacity
-                onPress={handleSubmit}
-                disabled={loading}
-                style={{ padding: 12, backgroundColor: 'green', borderRadius: 8 }}
-            >
-                {loading
-                    ? <ActivityIndicator color="white" />
-                    : <Text style={{ color: 'white' }}>Login</Text>
-                }
-            </TouchableOpacity>
+                {/* FORM */}
+                <View style={styles.form}>
+                    <Text>Email</Text>
+                    <Input
+                        icon={
+                            <Ionicons
+                                name="mail-outline"
+                                size={24}
+                                color="black"
+                            />
+                        }
+                        placeholder="Enter your email"
+                        onChangeText={(value) => emailRef.current = value}
+                        autoCapitalize="none"
+                    />
 
-            <View>
-                <Text>No account?</Text>
-                <TouchableOpacity onPress={() => router.push('/(auth)/register')}>
-                <Text>Sign up with Progress!</Text>
+                    <Text>Password</Text>
+                    <Input
+                        icon={
+                            <Ionicons
+                                name="key-outline"
+                                size={24}
+                                color="black"
+                            />
+                        }
+                        secureTextEntry={true}
+                        placeholder="Enter your password"
+                        onChangeText={(value) => passwordRef.current = value}
+                    />
+
+                </View>
+
+                <TouchableOpacity
+                    onPress={handleSubmit}
+                    disabled={loading}
+                    style={{
+                        padding: 12,
+                        backgroundColor: 'green',
+                        borderRadius: 12,
+                        alignItems: "center",
+                    }}
+                >
+                    {loading
+                        ? <ActivityIndicator color="white" />
+                        : <Text style={{ color: 'white' }}>Login</Text>
+                    }
                 </TouchableOpacity>
-            </View>
 
-        </View>
+                <View>
+                    <Text>Don't have an account?</Text>
+                    <TouchableOpacity
+                        onPress={() => router.push('/(auth)/register')}
+                    >
+                        <Text>Let's join and make Progress together!</Text>
+                    </TouchableOpacity>
+                </View>
+
+            </View>
+        </ScreenWrapper>
     )
 }
 export default LogIn
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        flex: 2,
+        gap: spacingY._60,
+        paddingHorizontal: spacingX._20,
     },
+    form: {
+        gap: spacingY._10,
+    },
+    topLogo: {
+        alignItems: "center",
+    }
 })
