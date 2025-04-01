@@ -20,6 +20,12 @@ const StackLayout = () => {
                     presentation: 'modal'
                 }}
             />
+            <Stack.Screen
+                name="(modals)/workoutModal"
+                options={{
+                    presentation: 'modal'
+                }}
+            />
         </Stack>
     );
 }
