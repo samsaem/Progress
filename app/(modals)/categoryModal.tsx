@@ -2,13 +2,13 @@ import {Alert, StyleSheet, Text, TouchableOpacity, View, ScrollView, ActivityInd
 import React, {useEffect, useState} from 'react'
 import ModalWrapper from "@/components/ModalWrapper";
 import {spacingX, spacingY} from "@/constants/theme";
-import {router} from "expo-router";
+import {router, useLocalSearchParams} from "expo-router";
 import {CategoryType} from "@/types";
 import {useAuth} from "@/contexts/authContext";
 import {scale, verticalScale} from "@/utils/styling";
 
 import Input from "@/components/Input";
-import {createOrUpdateCategory} from "@/services/categoryService";
+import {createOrUpdateCategory, deleteCategory} from "@/services/categoryService";
 
 const CategoryModal = () => {
     // for user's info
@@ -19,6 +19,19 @@ const CategoryModal = () => {
 
     // firebase auth
     const {user, updateUserData} = useAuth();
+
+    // edit Category
+    const oldCategory: { name: string; id?: string } =
+        useLocalSearchParams();
+    //console.log("params: ", oldCategory);
+
+    useEffect(() => {
+        if (oldCategory?.id) {
+            setCategory({
+                name: oldCategory.name,
+            });
+        }
+    }, []);
 
     const onSubmit = async () => {
         let {name} = category;
@@ -32,6 +45,10 @@ const CategoryModal = () => {
             name,
             uid: user?.uid,
         };
+
+        // update oldCategory -> another name
+        if (oldCategory?.id) data.id = oldCategory?.id;
+
         const res = await createOrUpdateCategory(data);
 
         setLoading(false);
@@ -44,6 +61,38 @@ const CategoryModal = () => {
         }
     };
 
+    const showDeleteAlert = () => {
+        Alert.alert(
+            "Confirm",
+            "Are you sure about deleting this category? \n All data related to this Category will also be removed.",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel delete"),
+                    style: "cancel",
+                },
+                {
+                    text: "Delete",
+                    onPress: () => onDelete(),
+                    style: "destructive",
+                },
+            ]
+        );
+    };
+
+    const onDelete = async () => {
+        if (!oldCategory?.id) return;
+        setLoading(true);
+        const res = await deleteCategory(oldCategory.id as string);
+        setLoading(false);
+
+        if (res.success) {
+            router.back();
+        } else {
+            Alert.alert("Category", res.msg);
+        }
+    }
+
     return (
         <ModalWrapper>
             <View style={styles.container}>
@@ -54,8 +103,12 @@ const CategoryModal = () => {
                     <Text>Go Back Btn</Text>
                 </TouchableOpacity>
 
-                {/* ADD CATEGORY MODAL */}
-                <Text>ADD CATEGORY MODAL</Text>
+                {/* CATEGORY MODAL */}
+                <Text>
+                    {oldCategory?.id
+                        ? "Update Category"
+                        : "Add Category"}
+                </Text>
 
                 <ScrollView contentContainerStyle={styles.form}>
 
@@ -69,15 +122,38 @@ const CategoryModal = () => {
                         />
                     </View>
 
-                    {/* ADD CATEGORY BTN */}
                     <View style={styles.footer}>
+                        {
+                            // if exists oldCategory
+                            // show Delete Button
+                            oldCategory?.id && (
+                                <TouchableOpacity
+                                    style={{ padding: 5, backgroundColor: 'green', borderRadius: 8 }}
+                                    onPress={onDelete}
+                                >
+                                    {loading
+                                        ? <ActivityIndicator color="white" />
+                                        : <Text style={{ color: 'white' }}>
+                                            Delete Category
+                                        </Text>
+                                    }
+                                </TouchableOpacity>
+                            )
+                        }
+
+
+                        {/* ADD CATEGORY BTN */}
                         <TouchableOpacity
                             style={{ padding: 5, backgroundColor: 'green', borderRadius: 8 }}
                             onPress={onSubmit}
                         >
                             {loading
                                 ? <ActivityIndicator color="white" />
-                                : <Text style={{ color: 'white' }}>Add Category</Text>
+                                : <Text style={{ color: 'white' }}>
+                                    {oldCategory?.id
+                                        ? "Update Category"
+                                        : "Add Category"}
+                                </Text>
                             }
                         </TouchableOpacity>
                     </View>
@@ -110,34 +186,6 @@ const styles = StyleSheet.create({
     form: {
         gap: spacingY._30,
         marginTop: spacingY._15,
-    },
-    avatarContainer: {
-        position: "relative",
-        alignSelf: "center",
-    },
-    avatar: {
-        alignSelf: "center",
-        //backgroundColor: colors.neutral300,
-        height: verticalScale(135),
-        width: verticalScale(135),
-        borderRadius: 200,
-        borderWidth: 1,
-        //borderColor: colors.neutral500,
-        // overflow: "hidden",
-        // position: "relative",
-    },
-    editIcon: {
-        position: "absolute",
-        bottom: spacingY._5,
-        right: spacingY._7,
-        borderRadius: 100,
-        //backgroundColor: colors.neutral100,
-        //shadowColor: colors.black,
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.25,
-        shadowRadius: 10,
-        elevation: 4,
-        padding: spacingY._7,
     },
     inputContainer: {
         gap: spacingY._10,

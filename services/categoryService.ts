@@ -1,5 +1,5 @@
 import {ResponseType, CategoryType} from "@/types";
-import {collection, doc, setDoc} from "@firebase/firestore";
+import {collection, deleteDoc, doc, setDoc} from "@firebase/firestore";
 import {firestore} from "@/config/firebase";
 
 export const createOrUpdateCategory = async (
@@ -36,6 +36,24 @@ export const createOrUpdateCategory = async (
             success: false,
             msg: error.message,
         }
+    }
+};
 
+export const deleteCategory = async (categoryId: string): Promise<ResponseType> =>
+{
+    try {
+        const categoryRef = doc(firestore, "categories", categoryId);
+        await deleteDoc(categoryRef);
+        return {
+            success: true,
+            msg: "Successfully deleting category",
+        }
+
+    } catch (error: any) {
+        console.log('error deleting category: ', error);
+        return {
+            success: false,
+            msg: error.message,
+        }
     }
 }
