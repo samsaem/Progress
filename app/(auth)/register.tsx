@@ -42,11 +42,26 @@ const Register = () => {
                 <BackButton/>
 
                 {/* INSERT LOGO HERE */}
-                <View style={styles.topLogo}>
-                    <Text>REGISTER PAGE - PROGRESSION LOGO</Text>
+                <View style={styles.registerContainer}>
+                    <Text style={styles.registerText}>
+                        Should We Get
+                    </Text>
+                    <Text style={styles.registerText}>
+                        Started?! ✨
+                    </Text>
                 </View>
 
                 <View style={styles.form}>
+                    <Text style={{
+                        fontSize: 15,
+                        //marginTop: spacingY._5,
+                        fontWeight: '700',
+                        color: "#067FD0",
+                    }}
+                    >
+                        Please fill out all the fields below!
+                    </Text>
+
                     <Text>Name</Text>
                     <Input
                         icon={
@@ -58,7 +73,6 @@ const Register = () => {
                         }
                         placeholder="Enter your name"
                         onChangeText={(value) => nameRef.current = value}
-                        autoCapitalize="none"
                     />
 
                     <Text>Email</Text>
@@ -95,7 +109,7 @@ const Register = () => {
                     disabled={loading}
                     style={{
                         padding: 12,
-                        backgroundColor: 'green',
+                        backgroundColor: '#067FD0',
                         borderRadius: 12,
                         alignItems: "center",
                     }}
@@ -109,7 +123,13 @@ const Register = () => {
                 <View>
                     <Text>Already have an account?</Text>
                     <TouchableOpacity onPress={() => router.push('/(auth)/login')}>
-                        <Text>Back to Login!</Text>
+                        <Text style={{
+                            fontSize: 15,
+                            fontWeight: '700',
+                            color: "#067FD0",
+                        }}
+                        >
+                            Login here!</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -119,12 +139,17 @@ const Register = () => {
 export default Register
 const styles = StyleSheet.create({
     container: {
-        flex: 2,
-        gap: spacingY._60,
+        flex: 1,
+        gap: spacingY._30,
         paddingHorizontal: spacingX._20,
     },
-    topLogo: {
-        alignItems: "center",
+    registerContainer: {
+        gap: 5,
+        marginTop: spacingY._20
+    },
+    registerText: {
+        fontSize: 30,
+        fontWeight: '800',
     },
     form: {
         gap: spacingY._10,

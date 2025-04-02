@@ -1,4 +1,4 @@
-import {ActivityIndicator, Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native'
+import {ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native'
 import React, {useRef, useState} from 'react'
 import BackButton from "@/components/BackButton";
 import Input from "@/components/Input";
@@ -36,17 +36,29 @@ const LogIn = () => {
     return (
         <ScreenWrapper>
             <View style={styles.container}>
-                <BackButton
+                <BackButton/>
 
-                />
-
-                {/* INSERT LOGO HERE */}
-                <View style={styles.topLogo}>
-                    <Text>LOGIN PAGE - PROGRESSION LOGO</Text>
+                <View style={styles.welcomeContainer}>
+                    <Text style={styles.welcomeText}>
+                        Hey!
+                    </Text>
+                    <Text style={styles.welcomeText}>
+                        Welcome back 👋
+                    </Text>
                 </View>
 
                 {/* FORM */}
                 <View style={styles.form}>
+                    <Text style={{
+                        fontSize: 15,
+                        marginTop: spacingY._10,
+                        fontWeight: '700',
+                        color: "#067FD0",
+                    }}
+                    >
+                        Are you ready to make Progress? 🙌
+                    </Text>
+
                     <Text>Email</Text>
                     <Input
                         icon={
@@ -82,7 +94,7 @@ const LogIn = () => {
                     disabled={loading}
                     style={{
                         padding: 12,
-                        backgroundColor: 'green',
+                        backgroundColor: '#067FD0',
                         borderRadius: 12,
                         alignItems: "center",
                     }}
@@ -98,7 +110,13 @@ const LogIn = () => {
                     <TouchableOpacity
                         onPress={() => router.push('/(auth)/register')}
                     >
-                        <Text>Let's join and make Progress together!</Text>
+                        <Text style={{
+                            fontSize: 15,
+                            fontWeight: '700',
+                            color: "#067FD0",
+                        }}
+                        >
+                            Join Progress!</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -109,14 +127,19 @@ const LogIn = () => {
 export default LogIn
 const styles = StyleSheet.create({
     container: {
-        flex: 2,
-        gap: spacingY._60,
+        flex: 1,
+        gap: spacingY._30,
         paddingHorizontal: spacingX._20,
     },
     form: {
-        gap: spacingY._10,
+        gap: spacingY._15,
     },
-    topLogo: {
-        alignItems: "center",
+    welcomeContainer: {
+        gap: 5,
+        marginTop: spacingY._20
+    },
+    welcomeText: {
+        fontSize: 30,
+        fontWeight: '800',
     }
 })
