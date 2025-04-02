@@ -25,16 +25,7 @@ const _Layout = () => {
                 options={{
                     title:'Home',
                     tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="home-outline" size={26} color="black" />
-                    )
-                }}
-            />
-            <Tabs.Screen
-                name="summary"
-                options={{
-                    title:'Summary',
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="list-outline" size={26} color="black" />
+                        <Ionicons name="home-outline" size={27} color="black" />
                     )
                 }}
             />
@@ -46,7 +37,6 @@ const _Layout = () => {
                         <Ionicons name="person-outline" size={26} color="black" />
                     )
                 }}
-
             />
         </Tabs>
     )

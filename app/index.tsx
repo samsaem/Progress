@@ -1,13 +1,13 @@
 import {StyleSheet, Text, View} from 'react-native'
 import React from 'react'
-import { Link } from 'expo-router';
+import LogIn from "@/app/(auth)/login";
+import ScreenWrapper from '@/components/ScreenWrapper';
 
 const Index = () => {
     return (
-        <View style={styles.container}>
-            <Text>Index - INSERT LOGO HERE</Text>
-            <Link href="(auth)/welcome">Go to Welcome</Link>
-        </View>
+        <ScreenWrapper>
+            <Text>What</Text>
+        </ScreenWrapper>
     );
 };
 export default Index

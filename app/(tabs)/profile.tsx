@@ -34,7 +34,7 @@ const Profile = () => {
         {
             title: "Logout",
             icon: (
-                <Icons.User
+                <Icons.Power
                     size={verticalScale(26)}
                     color={colors.white}
                     weight="fill"

@@ -10,6 +10,11 @@ const BackButton = () => {
 
         <TouchableOpacity
             onPress={() => router.back()}
+            style={{
+                alignSelf: "flex-start",
+                borderCurve: "continuous",
+                padding: 5,
+            }}
         >
             <Ionicons
                 name="chevron-back-circle-outline"

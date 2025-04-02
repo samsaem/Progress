@@ -1,5 +1,6 @@
 import {TextInput, TextInputProps, ViewStyle} from "react-native";
 import React from "react";
+import {Timestamp} from "@firebase/firestore";
 
 export type ScreenWrapperProps = {
     style?: ViewStyle;
@@ -52,12 +53,13 @@ export type CategoryType = {
     created?: Date;
     amount?: number;
     totalCategory?: number;
+    image: any;
 };
 
 export type accountOptionType = {
     title: string;
-    //icon: React.ReactNode;
-    //bgColor: string;
+    icon: React.ReactNode;
+    bgColor: string;
     routeName?: any;
 };
 
@@ -70,4 +72,13 @@ export type ResponseType = {
     success: boolean;
     data?: any;
     msg?: string;
+};
+
+export type ImageUploadProps = {
+    file?: any;
+    onSelect: (file: any) => void;
+    onClear: () => void;
+    containerStyle?: ViewStyle;
+    imageStyle?: ViewStyle;
+    placeholder?: string;
 };

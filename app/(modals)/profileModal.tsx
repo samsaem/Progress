@@ -115,6 +115,7 @@ const ProfileModal = () => {
 
                 </ScrollView>
             </View>
+
             {/* UPDATE PROFILE BTN */}
             <View style={styles.footer}>
                 <TouchableOpacity
@@ -161,18 +162,6 @@ const styles = StyleSheet.create({
         alignSelf: "center",
     },
 
-
-    footer: {
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        paddingHorizontal: spacingX._20,
-        gap: scale(12),
-        paddingTop: spacingY._15,
-        //borderTopColor: colors.neutral700,
-        marginBottom: spacingY._5,
-        borderTopWidth: 1,
-    },
     form: {
         gap: spacingY._30,
         marginTop: spacingY._15,
@@ -183,14 +172,11 @@ const styles = StyleSheet.create({
     },
     avatar: {
         alignSelf: "center",
-        //backgroundColor: colors.neutral300,
         height: verticalScale(135),
         width: verticalScale(135),
         borderRadius: 200,
         borderWidth: 1,
         borderColor: colors.white,
-        // overflow: "hidden",
-        // position: "relative",
     },
     nameText: {
         fontSize: 20,

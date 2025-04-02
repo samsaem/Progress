@@ -36,8 +36,6 @@ const LogIn = () => {
     return (
         <ScreenWrapper>
             <View style={styles.container}>
-                <BackButton/>
-
                 <View style={styles.welcomeContainer}>
                     <Text style={styles.welcomeText}>
                         Hey!
@@ -45,19 +43,21 @@ const LogIn = () => {
                     <Text style={styles.welcomeText}>
                         Welcome back 👋
                     </Text>
-                </View>
 
-                {/* FORM */}
-                <View style={styles.form}>
                     <Text style={{
                         fontSize: 15,
-                        marginTop: spacingY._10,
+                        marginTop: spacingY._5,
                         fontWeight: '700',
-                        color: "#067FD0",
+                        color: "#171717",
                     }}
                     >
                         Are you ready to make Progress? 🙌
                     </Text>
+                </View>
+
+                {/* FORM */}
+                <View style={styles.form}>
+
 
                     <Text>Email</Text>
                     <Input
@@ -101,7 +101,11 @@ const LogIn = () => {
                 >
                     {loading
                         ? <ActivityIndicator color="white" />
-                        : <Text style={{ color: 'white' }}>Login</Text>
+                        : <Text style={{
+                            color: 'white',
+                            fontSize: 15,
+                            fontWeight: '600',
+                        }}>Login</Text>
                     }
                 </TouchableOpacity>
 
@@ -128,15 +132,16 @@ export default LogIn
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        gap: spacingY._30,
+        gap: spacingY._25,
         paddingHorizontal: spacingX._20,
     },
     form: {
         gap: spacingY._15,
+        marginTop: spacingY._20
     },
     welcomeContainer: {
         gap: 5,
-        marginTop: spacingY._20
+        marginTop: spacingY._60
     },
     welcomeText: {
         fontSize: 30,

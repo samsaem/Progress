@@ -39,9 +39,6 @@ const Register = () => {
     return (
         <ScreenWrapper>
             <View style={styles.container}>
-                <BackButton/>
-
-                {/* INSERT LOGO HERE */}
                 <View style={styles.registerContainer}>
                     <Text style={styles.registerText}>
                         Should We Get
@@ -49,19 +46,20 @@ const Register = () => {
                     <Text style={styles.registerText}>
                         Started?! ✨
                     </Text>
-                </View>
 
-                <View style={styles.form}>
                     <Text style={{
                         fontSize: 15,
-                        //marginTop: spacingY._5,
+                        marginTop: spacingY._5,
                         fontWeight: '700',
-                        color: "#067FD0",
+                        color: "#171717",
                     }}
                     >
                         Please fill out all the fields below!
                     </Text>
 
+                </View>
+
+                <View style={styles.form}>
                     <Text>Name</Text>
                     <Input
                         icon={
@@ -116,7 +114,9 @@ const Register = () => {
                 >
                     {loading
                         ? <ActivityIndicator color="white" />
-                        : <Text style={{ color: 'white' }}>Register</Text>
+                        : <Text style={{ color: 'white',
+                            fontSize: 15,
+                            fontWeight: '600', }}>Register</Text>
                     }
                 </TouchableOpacity>
 
@@ -140,12 +140,12 @@ export default Register
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        gap: spacingY._30,
+        gap: spacingY._40,
         paddingHorizontal: spacingX._20,
     },
     registerContainer: {
-        gap: 5,
-        marginTop: spacingY._20
+        gap: 3,
+        marginTop: spacingY._60
     },
     registerText: {
         fontSize: 30,
@@ -153,5 +153,5 @@ const styles = StyleSheet.create({
     },
     form: {
         gap: spacingY._10,
-    },
+    }
 })

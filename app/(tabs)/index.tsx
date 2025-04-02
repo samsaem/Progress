@@ -1,62 +1,114 @@
-import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
-import React, {useState} from 'react'
-import {useAuth} from "@/contexts/authContext";
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import React from 'react'
 import ScreenWrapper from "@/components/ScreenWrapper";
-import {spacingX, spacingY} from "@/constants/theme";
+    import {colors, radius, spacingX, spacingY} from "@/constants/theme";
 import {verticalScale} from "@/utils/styling";
-import HomeCard from "@/components/HomeCard";
-import WorkoutList from "@/components/WorkoutList";
+import {router} from "expo-router";
+import useFetchData from "@/hooks/useFetchData";
+import {CategoryType} from "@/types";
+import {orderBy, where} from "@firebase/firestore";
+import {useAuth} from "@/contexts/authContext";
+import CategoryListItem from "@/components/CategoryListItem";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
-const Home = () => {
+const Index = () => {
     const {user} = useAuth();
+    // fetch data to display Category
+    const {data: categories, error, loading} = useFetchData<CategoryType>
+    ("categories", [
+            where("uid", "==", user?.uid),
+            orderBy("created", "desc"),
+        ]
+    );
+
+    //console.log("Total category: ", categories.length);
+
+    const getTotalSession = () =>
+        categories.reduce((total, item) => {
+            total = total + (item?.amount || 0);
+            return total;
+        }, 0);
 
     return (
         <ScreenWrapper>
             <View style={styles.container}>
-                <Text>(1) HOME PAGE</Text>
-
-                {/* HEADER */}
-                <View style={styles.header}>
-                    <View style={{ gap: 4 }}>
-                        <Text>Hello, {user?.name}</Text>
-                    </View>
+                {/* TOTAL CATEGORY: TOP */}
+                <View style={styles.balanceView}>
+                    <Text style={{
+                        fontSize: '16',
+                        fontWeight: '600',
+                        color: "#404040",
+                    }}
+                    >
+                        Total Entry</Text>
+                    <Text style={{
+                        fontSize: '45',
+                        fontWeight: '400',
+                        //color: "#067FD0",
+                    }}>
+                        {getTotalSession()}
+                    </Text>
                 </View>
 
-                {/* TOTAL WORKOUT and RECENT WORKOUT */}
-                <ScrollView
-                    contentContainerStyle={styles.scrollViewStyle}
-                    showsVerticalScrollIndicator={false}
-                >
-                    <View>
-                        <HomeCard />
+                {/* MY CATEGORY: MIDDLE */}
+                <View style={styles.category}>
+                    <View style={styles.flexRow}>
+                        <Text style={{
+                            fontSize: '20',
+                            fontWeight: '500'
+                        }}>
+                            My Progress
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() => router.push("/(modals)/categoryModal")}
+                        >
+                            <Ionicons
+                                name="add-circle"
+                                size={30} color="#067FD0"
+                            />
+                        </TouchableOpacity>
                     </View>
 
-                    <WorkoutList />
-
-
-                </ScrollView>
-
+                    {/* CATEGORY LIST */}
+                    <FlatList
+                        data={categories}
+                        renderItem={({ item, index }) => (
+                            <CategoryListItem item={item} router={router} index={index} />
+                        )}
+                        contentContainerStyle={styles.listStyle}
+                    />
+                </View>
             </View>
         </ScreenWrapper>
-
     )
 }
-export default Home
+export default Index
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: spacingX._20,
-        marginTop: verticalScale(8),
+        justifyContent: "space-between",
     },
-    header: {
+    category: {
+        flex: 1,
+        borderTopRightRadius: radius._30,
+        borderTopLeftRadius: radius._30,
+        padding: spacingX._20,
+        paddingTop: spacingX._25,
+        backgroundColor: '#e5e5e5',
+    },
+    listStyle: {
+        paddingVertical: spacingY._25,
+        paddingTop: spacingY._15,
+    },
+    flexRow: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         marginBottom: spacingY._10,
     },
-    scrollViewStyle: {
-        marginTop: spacingY._10,
-        paddingBottom: verticalScale(100),
-        gap: spacingY._25,
-    }
+    balanceView: {
+        height: verticalScale(160),
+        justifyContent: "center",
+        alignItems: "center",
+    },
 })

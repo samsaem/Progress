@@ -5,23 +5,26 @@ import {spacingX, spacingY} from "@/constants/theme";
 import {router, useLocalSearchParams} from "expo-router";
 import {CategoryType} from "@/types";
 import {useAuth} from "@/contexts/authContext";
-import {scale, verticalScale} from "@/utils/styling";
+import {scale} from "@/utils/styling";
 
 import Input from "@/components/Input";
 import {createOrUpdateCategory, deleteCategory} from "@/services/categoryService";
+import BackButton from "@/components/BackButton";
+import ImageUpload from "@/components/ImageUpload";
 
 const CategoryModal = () => {
     // for user's info
     const [category, setCategory] = useState<CategoryType>({
         name: "",
+        image: null,
     });
     const [loading, setLoading] = useState(false);
 
     // firebase auth
-    const {user, updateUserData} = useAuth();
+    const {user} = useAuth();
 
     // edit Category
-    const oldCategory: { name: string; id?: string } =
+    const oldCategory: { name: string, image: string, id?: string } =
         useLocalSearchParams();
     //console.log("params: ", oldCategory);
 
@@ -29,12 +32,18 @@ const CategoryModal = () => {
         if (oldCategory?.id) {
             setCategory({
                 name: oldCategory.name,
+                image: oldCategory?.image || null,
             });
         }
     }, []);
 
+    const onSelectImage = (file: any) => {
+        // console.log("file: ", file);
+        if (file) setCategory({ ...category, image: file });
+    };
+
     const onSubmit = async () => {
-        let {name} = category;
+        let {name, image} = category;
         if ( !name.trim() ) {
             Alert.alert("Category", "Please fill all the fields!");
             return;
@@ -43,6 +52,7 @@ const CategoryModal = () => {
 
         let data: CategoryType = {
             name,
+            image,
             uid: user?.uid,
         };
 
@@ -64,7 +74,7 @@ const CategoryModal = () => {
     const showDeleteAlert = () => {
         Alert.alert(
             "Confirm",
-            "Are you sure about deleting this category? \n All data related to this Category will also be removed.",
+            "Your tracked progress will be gone 😱 \n Are you sure about this?",
             [
                 {
                     text: "Cancel",
@@ -96,25 +106,23 @@ const CategoryModal = () => {
     return (
         <ModalWrapper>
             <View style={styles.container}>
-                <TouchableOpacity
-                    onPress={router.back}
-                    style={{ padding: 5, backgroundColor: 'green', borderRadius: 8 }}
-                >
-                    <Text>Go Back Btn</Text>
-                </TouchableOpacity>
-
                 {/* CATEGORY MODAL */}
-                <Text>
-                    {oldCategory?.id
-                        ? "Update Category"
-                        : "Add Category"}
-                </Text>
+
+                <View style={styles.header}
+                >
+                    <BackButton/>
+                    <Text style={styles.headerText}>
+                        {oldCategory?.id
+                            ? "Update Progress"
+                            : "Add Progress"}
+                    </Text>
+                </View>
+
 
                 <ScrollView contentContainerStyle={styles.form}>
-
-                    {/* CATEGORY NAME */}
+                    {/* WORKOUT CATEGORY */}
                     <View style={styles.inputContainer}>
-                        <Text>Category Name</Text>
+                        <Text style={styles.nameText}>Category Name</Text>
                         <Input
                             placeholder="Type workout category"
                             value={category.name}
@@ -122,43 +130,75 @@ const CategoryModal = () => {
                         />
                     </View>
 
-                    <View style={styles.footer}>
-                        {
-                            // if exists oldCategory
-                            // show Delete Button
-                            oldCategory?.id && (
-                                <TouchableOpacity
-                                    style={{ padding: 5, backgroundColor: 'green', borderRadius: 8 }}
-                                    onPress={onDelete}
-                                >
-                                    {loading
-                                        ? <ActivityIndicator color="white" />
-                                        : <Text style={{ color: 'white' }}>
-                                            Delete Category
-                                        </Text>
-                                    }
-                                </TouchableOpacity>
-                            )
-                        }
-
-
-                        {/* ADD CATEGORY BTN */}
-                        <TouchableOpacity
-                            style={{ padding: 5, backgroundColor: 'green', borderRadius: 8 }}
-                            onPress={onSubmit}
-                        >
-                            {loading
-                                ? <ActivityIndicator color="white" />
-                                : <Text style={{ color: 'white' }}>
-                                    {oldCategory?.id
-                                        ? "Update Category"
-                                        : "Add Category"}
-                                </Text>
-                            }
-                        </TouchableOpacity>
+                    {/* ADD PHOTOS */}
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.nameText}>Photo (optional)</Text>
+                        <ImageUpload
+                            file={category.image}
+                            onSelect={onSelectImage}
+                            onClear={() => setCategory({ ...category, image: null })}
+                            placeholder="Upload Image"
+                        />
                     </View>
 
+
                 </ScrollView>
+
+                <View style={styles.footer}>
+                    {
+                        // if exists oldCategory
+                        // show Delete Button
+                        oldCategory?.id && (
+                            <TouchableOpacity
+                                style={{
+                                    padding: 10,
+                                    backgroundColor: 'green',
+                                    borderRadius: 10,
+                                    flex: 1,
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}
+                                onPress={showDeleteAlert}
+                            >
+                                {loading
+                                    ? <ActivityIndicator color="white" />
+                                    : <Text style={{ color: 'white',
+                                        fontSize: 19,
+                                        fontWeight: '600',
+                                        alignItems: 'center'
+                                    }}
+                                    >
+                                        Delete Progress
+                                    </Text>
+                                }
+                            </TouchableOpacity>
+                        )
+                    }
+
+                    {/* ADD CATEGORY BTN */}
+                    <TouchableOpacity
+                        style={{
+                            padding: 10,
+                            backgroundColor: 'green',
+                            borderRadius: 10,
+                            flex: 1,
+                            alignItems: 'center',
+                        }}
+                        onPress={onSubmit}
+                    >
+                        {loading
+                            ? <ActivityIndicator color="white" />
+                            : <Text style={{ color: 'white',
+                                fontSize: 19,
+                                fontWeight: '600', }}
+                            >
+                                {oldCategory?.id
+                                    ? "Update Progress"
+                                    : "Add Progress"}
+                            </Text>
+                        }
+                    </TouchableOpacity>
+                </View>
             </View>
         </ModalWrapper>
     );
@@ -170,7 +210,23 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         paddingHorizontal: spacingY._20,
-        // paddingVertical: spacingY._30,
+    },
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    headerText: {
+        fontSize: 22,
+        fontWeight: '600',
+        alignSelf: "center",
+    },
+    inputContainer: {
+        gap: spacingY._10,
+    },
+    nameText: {
+        fontSize: 20,
+        fontWeight: '400',
     },
     footer: {
         alignItems: "center",
@@ -179,15 +235,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacingX._20,
         gap: scale(12),
         paddingTop: spacingY._15,
-        //borderTopColor: colors.neutral700,
-        marginBottom: spacingY._5,
+        borderTopColor: "#fff",
+        marginBottom: spacingY._30,
         borderTopWidth: 1,
     },
     form: {
         gap: spacingY._30,
         marginTop: spacingY._15,
-    },
-    inputContainer: {
-        gap: spacingY._10,
     },
 })

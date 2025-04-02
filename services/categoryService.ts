@@ -1,6 +1,7 @@
 import {ResponseType, CategoryType} from "@/types";
 import {collection, deleteDoc, doc, setDoc} from "@firebase/firestore";
 import {firestore} from "@/config/firebase";
+import {uploadFileToCloudinary} from "@/services/imageService";
 
 export const createOrUpdateCategory = async (
     categoryData: Partial<CategoryType>
@@ -13,6 +14,22 @@ export const createOrUpdateCategory = async (
             categoryToSave.amount = 0;
             categoryToSave.totalCategory = 0;
             categoryToSave.created = new Date();
+        }
+
+        if (categoryData.image) {
+            const imageUploadResponse = await uploadFileToCloudinary(
+                categoryData.image,
+                "wallets"
+            );
+
+            if (!imageUploadResponse.success) {
+                return {
+                    success: false,
+                    msg: imageUploadResponse.msg || "Failed to upload image",
+                };
+            }
+
+            categoryToSave.image = imageUploadResponse.data;
         }
 
         // add data to Firebase -- using doc, setDoc
