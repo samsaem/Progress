@@ -1,38 +1,64 @@
-import {Alert, StyleSheet, Text, TouchableOpacity, View, ScrollView, ActivityIndicator} from 'react-native'
+import {
+    Alert,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    ScrollView,
+    ActivityIndicator,
+    Pressable,
+    Platform,
+} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import ModalWrapper from "@/components/ModalWrapper";
-import {spacingX, spacingY} from "@/constants/theme";
+import {radius, spacingX, spacingY} from "@/constants/theme";
 import {router, useLocalSearchParams} from "expo-router";
 import {CategoryType} from "@/types";
 import {useAuth} from "@/contexts/authContext";
-import {scale} from "@/utils/styling";
+import {scale, verticalScale} from "@/utils/styling";
 
 import Input from "@/components/Input";
 import {createOrUpdateCategory, deleteCategory} from "@/services/categoryService";
 import BackButton from "@/components/BackButton";
 import ImageUpload from "@/components/ImageUpload";
 
+import DateTimePicker from "@react-native-community/datetimepicker";
+
+
 const CategoryModal = () => {
     // for user's info
     const [category, setCategory] = useState<CategoryType>({
         name: "",
+        date: new Date(),
+        description: "",
         image: null,
+        amount: 1,
     });
     const [loading, setLoading] = useState(false);
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     // firebase auth
     const {user} = useAuth();
 
     // edit Category
-    const oldCategory: { name: string, image: string, id?: string } =
-        useLocalSearchParams();
+    const oldCategory: {
+        name: string,
+        date: string;
+        description: string;
+        image: string,
+        id?: string
+        amount: number,
+    } = useLocalSearchParams();
     //console.log("params: ", oldCategory);
 
     useEffect(() => {
         if (oldCategory?.id) {
             setCategory({
                 name: oldCategory.name,
+                date: new Date(oldCategory.date),
+                description: oldCategory.description || "",
                 image: oldCategory?.image || null,
+                amount: Number(oldCategory.amount),
             });
         }
     }, []);
@@ -43,20 +69,23 @@ const CategoryModal = () => {
     };
 
     const onSubmit = async () => {
-        let {name, image} = category;
-        if ( !name.trim() ) {
-            Alert.alert("Category", "Please fill all the fields!");
+        let {name, date, description, image, amount} = category;
+        if ( !name.trim() || !date) {
+            Alert.alert("Category", "Please fill in all fields!");
             return;
         }
         setLoading(true);
 
         let data: CategoryType = {
             name,
+            date,
+            description,
             image,
+            amount,
             uid: user?.uid,
         };
 
-        // update oldCategory -> another name
+        // update data for Category
         if (oldCategory?.id) data.id = oldCategory?.id;
 
         const res = await createOrUpdateCategory(data);
@@ -103,6 +132,13 @@ const CategoryModal = () => {
         }
     }
 
+    // https://www.npmjs.com/package/@react-native-community/datetimepicker#onchange-optional
+    const onDateChange = (event: any, selectedDate: any) => {
+        const currentDate = selectedDate || category.date;
+        setCategory({ ...category, date: currentDate }); // Update the date state
+        setShowDatePicker(false);
+    };
+
     return (
         <ModalWrapper>
             <View style={styles.container}>
@@ -122,11 +158,58 @@ const CategoryModal = () => {
                 <ScrollView contentContainerStyle={styles.form}>
                     {/* WORKOUT CATEGORY */}
                     <View style={styles.inputContainer}>
-                        <Text style={styles.nameText}>Category Name</Text>
+                        <Text style={styles.nameText}>Workout Name</Text>
                         <Input
                             placeholder="Type workout category"
                             value={category.name}
                             onChangeText={(value) => setCategory({...category, name: value})}
+                        />
+                    </View>
+
+                    {/* DATE */}
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.nameText}>
+                            Date
+                        </Text>
+                        {!showDatePicker && (
+                            <Pressable
+                                style={styles.dateInput}
+                                onPress={() => setShowDatePicker(true)}
+                            >
+                                <Text style={{fontSize: verticalScale(14),}}>
+                                    {(category?.date as Date)?.toLocaleDateString()}
+                                </Text>
+                            </Pressable>
+                        )}
+                        {showDatePicker && (
+                            <View>
+                                <DateTimePicker
+                                    value={category.date as Date}
+                                    mode="date"
+                                    display={Platform.OS == "ios" ? "spinner" : "default"}
+                                    onChange={onDateChange}
+                                />
+                                {Platform.OS == "ios" && (
+                                    <TouchableOpacity
+                                        style={styles.datePickerButton}
+                                        onPress={() => setShowDatePicker(false)}
+                                    >
+                                        <Text>
+                                            Choose Date
+                                        </Text>
+                                    </TouchableOpacity>
+                                )}
+                            </View>
+                        )}
+                    </View>
+
+                    {/* NOTE */}
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.nameText}>Note (optional)</Text>
+                        <Input
+                            placeholder="Note to self"
+                            value={category.description}
+                            onChangeText={(value) => setCategory({...category, description: value})}
                         />
                     </View>
 
@@ -148,7 +231,7 @@ const CategoryModal = () => {
                     {
                         // if exists oldCategory
                         // show Delete Button
-                        oldCategory?.id && (
+                        oldCategory?.id && !loading && (
                             <TouchableOpacity
                                 style={{
                                     padding: 10,
@@ -242,5 +325,23 @@ const styles = StyleSheet.create({
     form: {
         gap: spacingY._30,
         marginTop: spacingY._15,
+    },
+    dateInput: {
+        flexDirection: "row",
+        height: verticalScale(54),
+        alignItems: "center",
+        borderWidth: 1,
+        //borderColor: colors.neutral300,
+        borderRadius: radius._17,
+        borderCurve: "continuous",
+        paddingHorizontal: spacingX._15,
+    },
+    datePickerButton: {
+        //backgroundColor: colors.neutral700,
+        alignSelf: "flex-end",
+        padding: spacingY._7,
+        marginRight: spacingX._7,
+        paddingHorizontal: spacingY._15,
+        borderRadius: radius._10,
     },
 })

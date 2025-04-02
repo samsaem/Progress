@@ -51,9 +51,12 @@ export type CategoryType = {
     name: string;
     uid?: string;
     created?: Date;
-    amount?: number;
-    totalCategory?: number;
+    // new info
+    date: Date | Timestamp | string;
+    description: string,
+    // old
     image: any;
+    amount?: number;
 };
 
 export type accountOptionType = {

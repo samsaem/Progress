@@ -49,7 +49,7 @@ const CategoryListItem = ({
                         {item.name}
                     </Text>
                     <Text style={{fontSize: 14}}>
-                        {item?.amount?.toFixed(0) || 0}
+                        {item.description}
                     </Text>
                 </View>
 

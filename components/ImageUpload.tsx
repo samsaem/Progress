@@ -69,8 +69,8 @@ export default ImageUpload;
 
 const styles = StyleSheet.create({
     image: {
-        height: scale(150),
-        width: scale(150),
+        height: "100%",
+        width: "100%",
         borderRadius: radius._15,
         borderCurve: "continuous",
         overflow: "hidden",
