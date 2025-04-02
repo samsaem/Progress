@@ -1,7 +1,7 @@
 import {Alert, StyleSheet, Text, TouchableOpacity, View, ScrollView, ActivityIndicator} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import ModalWrapper from "@/components/ModalWrapper";
-import {spacingX, spacingY} from "@/constants/theme";
+import {colors, spacingX, spacingY} from "@/constants/theme";
 import {router} from "expo-router";
 import {UserDataType} from "@/types";
 import {useAuth} from "@/contexts/authContext";
@@ -13,6 +13,8 @@ import {updateUser} from "@/services/userService";
 
 // to access gallery
 import * as ImagePicker from 'expo-image-picker';
+import * as Icons from "phosphor-react-native";
+import BackButton from "@/components/BackButton";
 
 
 const ProfileModal = () => {
@@ -78,15 +80,11 @@ const ProfileModal = () => {
     return (
         <ModalWrapper>
             <View style={styles.container}>
-                <TouchableOpacity
-                    onPress={router.back}
-                    style={{ padding: 5, backgroundColor: 'green', borderRadius: 8 }}
+                <View style={styles.header}
                 >
-                    <Text>Go Back Btn</Text>
-                </TouchableOpacity>
-
-                {/* PROFILE MODAL */}
-                <Text>UPDATE PROFILE MODAL</Text>
+                    <BackButton/>
+                    <Text style={styles.headerText}>Update Profile</Text>
+                </View>
 
                 <ScrollView contentContainerStyle={styles.form}>
                     {/* PFP */}
@@ -97,16 +95,17 @@ const ProfileModal = () => {
                             contentFit="cover"
                             transition={100}
                         />
-                        <TouchableOpacity
-                            onPress={onPickImage}
-                        >
-                            <Text>Choose photo from library</Text>
+                        <TouchableOpacity style={styles.editIcon} onPress={onPickImage}>
+                            <Icons.Pencil
+                                size={verticalScale(20)}
+                                //color={colors.neutral800}
+                            />
                         </TouchableOpacity>
                     </View>
 
                     {/* NAME */}
                     <View style={styles.inputContainer}>
-                        <Text>Edit Name</Text>
+                        <Text style={styles.nameText}>Edit Name</Text>
                         <Input
                             placeholder="Name"
                             value={userData.name}
@@ -114,20 +113,29 @@ const ProfileModal = () => {
                         />
                     </View>
 
-                    {/* UPDATE PROFILE BTN */}
-                    <View style={styles.footer}>
-                        <TouchableOpacity
-                            style={{ padding: 5, backgroundColor: 'green', borderRadius: 8 }}
-                            onPress={onSubmit}
-                        >
-                            {loading
-                                ? <ActivityIndicator color="white" />
-                                : <Text style={{ color: 'white' }}>Update Profile</Text>
-                            }
-                        </TouchableOpacity>
-                    </View>
-
                 </ScrollView>
+            </View>
+            {/* UPDATE PROFILE BTN */}
+            <View style={styles.footer}>
+                <TouchableOpacity
+                    style={{
+                        padding: 10,
+                        backgroundColor: 'green',
+                        borderRadius: 10,
+                        flex: 1,
+                        alignItems: 'center',
+                }}
+                    onPress={onSubmit}
+                >
+                    {loading
+                        ? <ActivityIndicator color="white" />
+                        : <Text style={{
+                            color: 'white',
+                            fontSize: 19,
+                            fontWeight: '600',
+                        }}>Update</Text>
+                    }
+                </TouchableOpacity>
             </View>
         </ModalWrapper>
     );
@@ -141,6 +149,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacingY._20,
         // paddingVertical: spacingY._30,
     },
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+
+    headerText: {
+        fontSize: 22,
+        fontWeight: '600',
+        alignSelf: "center",
+    },
+
+
     footer: {
         alignItems: "center",
         flexDirection: "row",
@@ -167,17 +188,21 @@ const styles = StyleSheet.create({
         width: verticalScale(135),
         borderRadius: 200,
         borderWidth: 1,
-        //borderColor: colors.neutral500,
+        borderColor: colors.white,
         // overflow: "hidden",
         // position: "relative",
+    },
+    nameText: {
+        fontSize: 20,
+        fontWeight: '400',
     },
     editIcon: {
         position: "absolute",
         bottom: spacingY._5,
         right: spacingY._7,
         borderRadius: 100,
-        //backgroundColor: colors.neutral100,
-        //shadowColor: colors.black,
+        backgroundColor: "#e5e5e5",
+        shadowColor: "#e5e5e5",
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.25,
         shadowRadius: 10,
@@ -186,5 +211,16 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         gap: spacingY._10,
+    },
+    footer: {
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "center",
+        paddingHorizontal: spacingX._20,
+        gap: scale(12),
+        paddingTop: spacingY._15,
+        borderTopColor: "#fff",
+        marginBottom: spacingY._30,
+        borderTopWidth: 1,
     },
 })
