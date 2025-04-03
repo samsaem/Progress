@@ -158,6 +158,7 @@ const CategoryModal = () => {
 
 
                 <ScrollView
+                    bounces={true}
                     contentContainerStyle={styles.form}
                     showsVerticalScrollIndicator={false}
                 >

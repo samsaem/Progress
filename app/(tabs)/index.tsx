@@ -67,7 +67,8 @@ const Index = () => {
                         >
                             <Ionicons
                                 name="add-circle"
-                                size={30} color="#067FD0"
+                                size={30}
+                                color="#067FD0"
                             />
                         </TouchableOpacity>
                     </View>

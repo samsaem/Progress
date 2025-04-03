@@ -1,7 +1,6 @@
 import {ActivityIndicator, Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native'
 import React, {useRef, useState} from 'react'
 import {colors, spacingX, spacingY} from "@/constants/theme";
-import BackButton from "@/components/BackButton";
 import Input from "@/components/Input";
 import {router} from "expo-router";
 import {useAuth} from "@/contexts/authContext";
@@ -116,7 +115,8 @@ const Register = () => {
                         ? <ActivityIndicator color="white" />
                         : <Text style={{ color: 'white',
                             fontSize: 15,
-                            fontWeight: '600', }}>Register</Text>
+                            fontWeight: '600', }}
+                        >Register</Text>
                     }
                 </TouchableOpacity>
 
@@ -131,6 +131,7 @@ const Register = () => {
                         >
                             Login here!</Text>
                     </TouchableOpacity>
+
                 </View>
             </View>
         </ScreenWrapper>
@@ -153,5 +154,5 @@ const styles = StyleSheet.create({
     },
     form: {
         gap: spacingY._10,
-    }
+    },
 })
