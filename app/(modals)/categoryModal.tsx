@@ -157,12 +157,15 @@ const CategoryModal = () => {
                 </View>
 
 
-                <ScrollView contentContainerStyle={styles.form}>
+                <ScrollView
+                    contentContainerStyle={styles.form}
+                    showsVerticalScrollIndicator={false}
+                >
                     {/* WORKOUT CATEGORY */}
                     <View style={styles.inputContainer}>
                         <Text style={styles.nameText}>Workout Name</Text>
                         <Input
-                            placeholder="Type workout category"
+                            placeholder="Type workout name"
                             value={category.name}
                             onChangeText={(value) => setCategory({...category, name: value})}
                         />
@@ -336,13 +339,11 @@ const styles = StyleSheet.create({
         height: verticalScale(54),
         alignItems: "center",
         borderWidth: 1,
-        //borderColor: colors.neutral300,
         borderRadius: radius._17,
         borderCurve: "continuous",
         paddingHorizontal: spacingX._15,
     },
     datePickerButton: {
-        //backgroundColor: colors.neutral700,
         alignSelf: "flex-end",
         padding: spacingY._7,
         marginRight: spacingX._7,

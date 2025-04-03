@@ -32,6 +32,28 @@ const Profile = () => {
             bgColor: "#067FD0",
         },
         {
+            title: "Set Up Goal",
+            icon: (
+                <Icons.Target
+                    size={verticalScale(26)}
+                    color={colors.white}
+                    weight="fill"
+                />
+            ),
+            bgColor: "orange",
+        },
+        {
+            title: "Settings",
+            icon: (
+                <Icons.GearSix
+                    size={verticalScale(26)}
+                    color={colors.white}
+                    weight="fill"
+                />
+            ),
+            bgColor: "#059669",
+        },
+        {
             title: "Logout",
             icon: (
                 <Icons.Power
@@ -40,7 +62,7 @@ const Profile = () => {
                     weight="fill"
                 />
             ),
-            bgColor: "red",
+            bgColor: "#FA003F",
         },
     ]
 
@@ -74,7 +96,7 @@ const Profile = () => {
     return (
         <ScreenWrapper>
             <View style={styles.container}>
-                <Text style={styles.headerText}>PROFILE</Text>
+                <Text style={styles.headerText}>Profile</Text>
 
                 {/* USER'S INFO */}
                 <View style={styles.userInfo}>
@@ -166,6 +188,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: '600',
         alignSelf: "center",
+        color: "#404040",
     },
     nameText: {
         fontSize: 24,

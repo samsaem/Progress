@@ -7,6 +7,7 @@ import * as Icons from "phosphor-react-native";
 import { Router } from "expo-router";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { Image } from "expo-image";
+import {Timestamp} from "@firebase/firestore";
 
 const CategoryListItem = ({
                             item,
@@ -17,16 +18,26 @@ const CategoryListItem = ({
     index: number;
     router: Router;
 }) => {
+
     const handleOpen = () => {
         router.push({
             pathname: "/(modals)/categoryModal",
             params: {
                 id: item?.id,
                 name: item?.name,
+                date: (item.date as Timestamp)?.toDate()?.toISOString(),
+                description: item.description,
                 image: item?.image,
             },
         });
     };
+
+    let date = (item?.date as Timestamp)?.toDate()?.toLocaleDateString("en-GB", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+    });
+
     return (
         <Animated.View
             entering={FadeInDown.delay(index * 50)
@@ -46,6 +57,10 @@ const CategoryListItem = ({
                 <View style={styles.nameContainer}>
                     <Text style={{fontSize: 16}}>
                         {item.name}
+                    </Text>
+
+                    <Text style={{fontSize: 14}}>
+                        {date}
                     </Text>
 
                     <Text style={{fontSize: 14}}>
@@ -73,8 +88,8 @@ const styles = StyleSheet.create({
         padding: spacingX._15,
     },
     imageContainer: {
-        height: verticalScale(45),
-        width: verticalScale(45),
+        height: verticalScale(53),
+        width: verticalScale(53),
         borderWidth: 1,
         borderRadius: radius._12,
         borderCurve: "continuous",
