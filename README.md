@@ -1,19 +1,46 @@
-# Welcome to your Expo app 👋
+# Progress
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Progress is a powerful tracking tool designed to help you document your fitness journey and achieve your goals with ease!
 
-## Get started
+## Environment Set Up
 
-1. Install dependencies
+1. Run command in your terminal
+   
+   ```bash
+   git clone git@github.com:samsaem/Progress.git
+   ```
+   
+2. Install dependencies
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Add Firebase config file `firebase.ts` to directory "config"
+
+   ```ts
+   import { initializeApp } from "firebase/app";
+   import { initializeAuth, getReactNativePersistence } from "firebase/auth";
+   import AsyncStorage from "@react-native-async-storage/async-storage";
+   import {getFirestore} from "@firebase/firestore";
+   
+   const firebaseConfig = {
+        // Add web app's Firebase configuration here
+   };
+   
+   const app = initializeApp(firebaseConfig);
+   
+   export const auth = initializeAuth(app, {
+   persistence: getReactNativePersistence(AsyncStorage),
+   });
+   
+   export const firestore = getFirestore(app);
+   ```
+
+4. Start Expo and choose your prefer environment (https://expo.dev/go) 
 
    ```bash
-    npx expo start
+   npx expo start
    ```
 
 In the output, you'll find options to open the app in a
@@ -23,28 +50,19 @@ In the output, you'll find options to open the app in a
 - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
 - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## App Demo
 
-## Get a fresh project
+\-|                Log In/Register                |                     Feed                      | Add Entry
+:-------------------------:|:---------------------------------------------:|:---------------------------------------------:|:-------------------------:
+**Demo** | <img src="assets/demo/auth.gif" width="180"/> | <img src="assets/demo/feed.gif" width="180"/> | <img src="assets/demo/features.gif" width="180" width="180"/>
 
-When you're ready, run:
 
-```bash
-npm run reset-project
-```
+## Tools
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+1. React Native (https://reactnative.dev/)
+2. Expo (https://expo.dev/)
+3. Expo ImagePicker (https://docs.expo.dev/versions/latest/sdk/imagepicker/)
+4. Cloudinary Photo Upload (https://cloudinary.com/documentation/image_upload_api_reference)
+5. Google Firebase Firestore (https://firebase.google.com/docs/firestore)
+6. Google Firebase Storage (https://firebase.google.com/docs/storage)
+7. Google Firebase Authentication (https://firebase.google.com/docs/auth)
