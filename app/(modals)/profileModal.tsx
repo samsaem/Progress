@@ -148,7 +148,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         paddingHorizontal: spacingY._20,
-        // paddingVertical: spacingY._30,
     },
     header: {
         flexDirection: 'row',

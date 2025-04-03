@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import ModalWrapper from "@/components/ModalWrapper";
-import {radius, spacingX, spacingY} from "@/constants/theme";
+import {colors, radius, spacingX, spacingY} from "@/constants/theme";
 import {router, useLocalSearchParams} from "expo-router";
 import {CategoryType} from "@/types";
 import {useAuth} from "@/contexts/authContext";
@@ -23,7 +23,7 @@ import BackButton from "@/components/BackButton";
 import ImageUpload from "@/components/ImageUpload";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
-
+import * as Icons from "phosphor-react-native";
 
 const CategoryModal = () => {
     // for user's info
@@ -32,7 +32,7 @@ const CategoryModal = () => {
         date: new Date(),
         description: "",
         image: null,
-        amount: 1,
+        amount: 0,
     });
     const [loading, setLoading] = useState(false);
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -40,15 +40,17 @@ const CategoryModal = () => {
     // firebase auth
     const {user} = useAuth();
 
-    // edit Category
-    const oldCategory: {
+    type paramType = {
         name: string,
         date: string;
         description: string;
         image: string,
         id?: string
-        amount: number,
-    } = useLocalSearchParams();
+        amount: string,
+    }
+
+    // edit Category
+    const oldCategory: paramType = useLocalSearchParams();
     //console.log("params: ", oldCategory);
 
     useEffect(() => {
@@ -70,7 +72,7 @@ const CategoryModal = () => {
 
     const onSubmit = async () => {
         let {name, date, description, image, amount} = category;
-        if ( !name.trim() || !date) {
+        if ( !name.trim()) {
             Alert.alert("Category", "Please fill in all fields!");
             return;
         }
@@ -91,7 +93,7 @@ const CategoryModal = () => {
         const res = await createOrUpdateCategory(data);
 
         setLoading(false);
-        console.log("category result: ", res);
+        console.log("result: ", res);
 
         if (res.success) {
             router.back();
@@ -224,7 +226,6 @@ const CategoryModal = () => {
                         />
                     </View>
 
-
                 </ScrollView>
 
                 <View style={styles.footer}>
@@ -235,7 +236,7 @@ const CategoryModal = () => {
                             <TouchableOpacity
                                 style={{
                                     padding: 10,
-                                    backgroundColor: 'green',
+                                    backgroundColor: '#FA003F',
                                     borderRadius: 10,
                                     flex: 1,
                                     alignItems: 'center',
@@ -251,7 +252,11 @@ const CategoryModal = () => {
                                         alignItems: 'center'
                                     }}
                                     >
-                                        Delete Progress
+                                        <Icons.Trash
+                                            size={verticalScale(24)}
+                                            weight="bold"
+                                            color={colors.white}
+                                        />
                                     </Text>
                                 }
                             </TouchableOpacity>

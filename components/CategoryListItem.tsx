@@ -8,7 +8,6 @@ import { Router } from "expo-router";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { Image } from "expo-image";
 
-
 const CategoryListItem = ({
                             item,
                             index,
@@ -48,6 +47,7 @@ const CategoryListItem = ({
                     <Text style={{fontSize: 16}}>
                         {item.name}
                     </Text>
+
                     <Text style={{fontSize: 14}}>
                         {item.description}
                     </Text>

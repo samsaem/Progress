@@ -25,7 +25,10 @@ const Index = () => {
 
     const getTotalSession = () =>
         categories.reduce((total, item) => {
-            total = total + (item?.amount || 0);
+            if (item?.name) {
+                const itemCount = 1;
+                total = total + itemCount;
+            }
             return total;
         }, 0);
 
@@ -44,10 +47,10 @@ const Index = () => {
                     <Text style={{
                         fontSize: '45',
                         fontWeight: '400',
-                        //color: "#067FD0",
                     }}>
                         {getTotalSession()}
                     </Text>
+
                 </View>
 
                 {/* MY CATEGORY: MIDDLE */}
