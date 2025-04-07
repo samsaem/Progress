@@ -16,7 +16,7 @@ Progress is a powerful tracking tool designed to help you document your fitness 
    npm install
    ```
 
-3. Add Firebase config file `firebase.ts` to directory "config"
+3. Create directory "config" and add Firebase file `firebase.ts` to directory
 
    ```ts
    import { initializeApp } from "firebase/app";
